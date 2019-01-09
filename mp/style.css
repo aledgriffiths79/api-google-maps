@@ -1,0 +1,28 @@
+.navbar-default {
+	background-image: none;
+	margin-bottom: 0;
+}
+
+.section-heading {
+	margin-bottom: 25px;
+}
+
+.custom-chart {
+	margin-bottom: 40px;
+}
+
+.section {
+	border-bottom: 1px solid #e6e6e6;
+	padding: 30px 0;
+	margin-top: 10px;
+}
+
+.section-paragraph {
+	font-size: 18px;
+	padding: 10px 0;
+}
+
+span .fas .fa-arrow-circle-down {
+	font-size: 22px;
+	color: red;
+}

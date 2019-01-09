@@ -170,10 +170,11 @@
                 }
             });
 
-            var labels = "ABCDEFGHIJKLMONPQRSTUVWXYZ";
+            var labels = "ABCDEFGHIJKLMONPQRSTUVWXYZ";  //this is an example of a string
 
-            var locations = [{
-                lat: 40.785091,
+            var locations = [{                          // with the [] its for an array, so here theres an empty array, but in that array is 
+                                                        // {} which is to store objects i.e. "lat" and "lng" in this case
+                lat: 40.785091,                         // in this example we have a locations array
                 lng: -73.968285
             }, {
                 lat: 41.084045,
@@ -183,10 +184,16 @@
                 lng: -73.984016
             }];
 
-            var markers = locations.map(function(location, i) {
+            var markers = locations.map(function(location, i) {     // Now just at this point, we should mention that this map method here is a 
+                                                                    // built-in JavaScript method.Don't get it confused with the Google Map that we're working with.
+                                                                    // The map method in JavaScript works similar to a forEach() function.
+                                                                    // The difference is that this returns an array with the results of looping through each item 
+                                                                    // in our locations array.
                 return new google.maps.Marker({
                     position: location,
-                    label: labels[i % labels.length]
+                    label: labels[i % labels.length]    // % is modulo operator is used to loop around.The reason for using the %operator 
+                                                        // is so that if we have more than 26 locations, then it will loop around to the start of our
+                                                        //string again and go from Z back to A, instead of throwing an error.
                 });
             });
 
@@ -196,7 +203,7 @@
         }
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDHHyac2SiOYPNYxXMK7rqJjnB8nCaaxE&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJdhV55yczHLhyPlipeZWF8BD0j0MSnnY&callback=initMap"></script>
 </body>
 
 </html>
