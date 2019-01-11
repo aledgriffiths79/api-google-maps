@@ -1,6 +1,10 @@
 function userInformationHTML(user) {
+    
+    console.log(user);
+    
+    //user is the object and name is the element
     return `
-        <h2>${user.name}
+        <h2>${user.id} || ${user.name}                               
             <span class="small-name">
                 (@<a href="${user.html_url}" target="_blank">${user.login}</a>)
             </span>
@@ -15,7 +19,9 @@ function userInformationHTML(user) {
         </div>`;
 }
 
-function repoInformationHTML(repos) {
+function repoInformationHTML(repos) {                                       // This takes just one argument, which is repos, 
+                                                                             // the object returned from our GitHub API.
+    console.log(repos);
     if (repos.length == 0) {
         return `<div class="clearfix repo-list">No repos!</div>`;
     }
@@ -37,6 +43,13 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
+    $("#gh-user-data").html("");                                    // We're actually going to empty both of our divs.
+                                                                    // So we'll use jQuery first of all to select the gh-user-data
+                                                                    // div and set its HTML content to an empty string.
+                                                                    // And then we'll do the same for the gh-repo-data div.
+                                                                    // Setting their HTML content to an empty string has the effect
+                                                                    // of emptying these divs.
+    $("#gh-repo-data").html("");
 
     var username = $("#gh-username").val();
     if (!username) {
@@ -66,10 +79,21 @@ function fetchGitHubInformation(event) {
             $("#gh-user-data").html(userInformationHTML(userData));
             $("#gh-repo-data").html(repoInformationHTML(repoData));
         },
+        
         function(errorResponse) {
             if (errorResponse.status === 404) {                             // 404 is a not found error
                 $("#gh-user-data").html(
                     `<h2>No info found for user ${username}</h2>`);
+            } else if (errorResponse.status === 403) {                      // So in our fetchGitHubInformation() function, after we 
+                                                                            // check for status of 404, we're now going to put an else 
+                                                                            // if clause and check for the status of 403.
+                                                                            // 403 means forbidden.
+                                                                            // And this is the status code that GitHub returned when 
+                                                                            // our access is denied.
+                                                                            // So in here, we're going to create a new variable called 
+                                                                            // resetTime and set that to be a new date object. 
+                var resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset') * 1000);
+                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`);
             } else {
                 console.log(errorResponse);
                 $("#gh-user-data").html(
@@ -77,8 +101,7 @@ function fetchGitHubInformation(event) {
             }
         });
 }
-    
 
-
-
-
+$(document).ready(fetchGitHubInformation);
+        
+       
